@@ -1,23 +1,34 @@
-// App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Create from './components/Create';
-import { useState } from'react';
+import Home from './components/Home';
 
 const App = () => {
-  const [students, setStudents] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    age: '',
+    gender: ''
+  });
 
-  const handleAddStudent = (newStudent) => {
-    setStudents([...students, newStudent]);
+  // Function to update formData
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
   };
+
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/create" element={<Create onAddStudent={handleAddStudent} />} />
-         
-        </Routes>
-      </div>
+      <Routes>
+        
+        <Route path="/" element={<Home formData={formData} />} />
+        <Route path="/create" element={<Create formData={formData} handleChange={handleChange}/>} />
+      
+        
+      </Routes>
     </Router>
   );
 };
